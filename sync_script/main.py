@@ -9,12 +9,17 @@ from watchdog.events import FileSystemEvent, FileSystemEventHandler
 from watchdog.observers import Observer
 from dotenv import load_dotenv
 
+# TODO: Add an example .env
 load_dotenv()
 SYNC_DIR = os.getenv('SYNC_DIR')
 API_ADDRESS = os.getenv('API_ADDRESS')
 SIGNING_KEY = os.getenv('SIGNING_KEY')
 
-print(f'Sync dir is {SYNC_DIR}')
+print('┏ Environment Variables')
+print(f'┃ Sync dir is {SYNC_DIR}')
+print(f'┃ Remote is {API_ADDRESS}')
+print('┗ Environment Variables')
+print()
 
 # -- Comparing local and remote files -----------------------------------------
 def get_file_hash(file_path: str) -> str:
@@ -54,6 +59,7 @@ def find_out_of_sync_files() -> list[str]:
 
 # -- Sync files ---------------------------------------------------------------
 def upload_file(filename: str) -> None:
+	print(f'║ Syncing {filename}...')
 	file_path = str(Path(SYNC_DIR) / filename)
 	with open(file_path) as file:
 		file_content = file.read()
@@ -61,14 +67,40 @@ def upload_file(filename: str) -> None:
 	# TODO: Add request signing
 	req = requests.put(API_ADDRESS + '/users/' + filename, data=file_content)
 	req.raise_for_status()
+	print(f'║ {filename} OK!')
 
 def sync_files() -> None:
+	print('┏ Sync Operation')
+	print('┃ Diffing files...')
 	out_of_sync = find_out_of_sync_files()
+	print(f'┃ {len(out_of_sync)} found! Uploading...')
 	for filename in out_of_sync:
 		upload_file(filename)
+	print('┗ Done!')
 
 # -- Watcher setup ------------------------------------------------------------
-
+class SyncingChangeHandler(FileSystemEventHandler):
+	def on_modified(self, event: FileSystemEvent):
+		if event.is_directory: return
+		print(f'{event.src_path} modified! Syncing...')
+		sync_files()
+		print()
 
 # -- Set it all in motion -----------------------------------------------------
+print("Performing initial sync...")
 sync_files()
+print()
+
+print("Setting up observer...")
+event_handler = SyncingChangeHandler()
+observer = Observer()
+observer.schedule(event_handler, SYNC_DIR)
+observer.start()
+
+print("OK, holding.")
+try:
+	while True:
+		time.sleep(1) # keep alive while the observer does its thing
+finally:
+	observer.stop()
+	observer.join()
