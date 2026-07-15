@@ -2,3 +2,7 @@
 site/bin/
 site/env.sh
 site/vendor/
+
+# script
+sync_script/.venv/
+sync_script/.env

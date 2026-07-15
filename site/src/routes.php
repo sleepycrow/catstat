@@ -9,7 +9,9 @@ use Catstat\Controllers\HomeController;
 
 // -- Api routes --------------------------------------------------------------
 $app->group('/api/v1', function (RouteCollectorProxy $group) {
-	$group->get('/hello', [ApiController::class, 'hello']);
+	$group->get('/hashes', [ApiController::class, 'get_hashes']);
+	$group->get('/users/{name}', [ApiController::class, 'get_user_file']);
+	$group->put('/users/{name}', [ApiController::class, 'put_user_file']);
 });
 
 // -- Home routes -------------------------------------------------------------
