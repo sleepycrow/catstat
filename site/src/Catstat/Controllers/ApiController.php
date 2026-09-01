@@ -4,6 +4,7 @@ namespace Catstat\Controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Catstat\Config;
+use Catstat\Utils\UserFileUtils;
 
 class ApiController {
 	public function get_hashes(Request $_req, Response $resp, array $_args): Response {
@@ -23,11 +24,11 @@ class ApiController {
 	
 	public function get_user_file(Request $_req, Response $resp, array $args): Response {
 		$filename = $args['name'];
-		if (!$this->is_valid_user_file_name($filename)) {
+		if (!UserFileUtils::is_valid_user_file_name($filename)) {
 			return $resp->withStatus(400);
 		}
 
-		$file_path = Config::get_user_data_path() . '/' . $filename;
+		$file_path = UserFileUtils::get_path_for_user($filename, true);
 		if (!file_exists($file_path)) {
 			return $resp->withStatus(404);
 		}
@@ -40,17 +41,13 @@ class ApiController {
 	public function put_user_file(Request $req, Response $resp, array $args): Response {
 		// TODO: Add signature verification
 		$filename = $args['name'];
-		if (!$this->is_valid_user_file_name($filename)) {
+		if (!UserFileUtils::is_valid_user_file_name($filename)) {
 			return $resp->withStatus(400);
 		}
 
-		$file_path = Config::get_user_data_path() . '/' . $filename;
+		$file_path = UserFileUtils::get_path_for_user($filename, true);
 		$write_result = file_put_contents($file_path, $req->getBody());
 
 		return $resp->withStatus($write_result !== false ? 200 : 500);
-	}
-
-	private function is_valid_user_file_name(string $filename): bool {
-		return preg_match("/^[0-9A-Za-z_\-\.]+\.txt$/", $filename) !== false;
 	}
 }
