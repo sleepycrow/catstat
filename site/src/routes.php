@@ -16,6 +16,6 @@ $app->group('/api/v1', function (RouteCollectorProxy $group) {
 
 // -- Home routes -------------------------------------------------------------
 $app->group('', function (RouteCollectorProxy $group) {
-	$group->get('/lookup', [HomeController::class, 'lookup']);
-	$group->get('/', [HomeController::class, 'index']);
+	$group->get('/lookup', [HomeController::class, 'lookup'])->setName('lookup');
+	$group->get('/', [HomeController::class, 'index'])->setName('home');
 });

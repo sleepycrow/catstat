@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% block head %}
+			<meta charset="utf-8">
+			<link type="text/css" rel="stylesheet" href="/resx/css.css">
+			<title>{% block title %}{% endblock %} - Catstat</title>
+		{% endblock %}
+	</head>
+	<body>
+		<header>
+			<a href="/">
+				<h1>Lynxsie's therian kebab-fuelled Chat Cat collector</h1>
+				<p>"The cats in the chat are free, you can just take them!"</p>
+			</a>
+		</header>
+		
+		{% block content %}{% endblock %}
+
+		<footer>
+			{% block footer %}
+				<p>something about copyright</p>
+			{% endblock %}
+		</footer>
+	</body>
+</html>

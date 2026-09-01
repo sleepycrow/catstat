@@ -1,0 +1,38 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	width: 100%;
+	max-width: 600px;
+	padding: 1rem .5rem;
+	margin: 0 auto;
+	font-family: Arial, helvetica, sans-serif;
+}
+
+header, footer {
+	text-align: center;
+}
+
+header {
+	margin-bottom: 2rem;
+}
+
+header a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.home-form input,
+.home-form button {
+	display: block;
+	width: 100%;
+	font-size: 1.25rem;
+	margin: .5rem 0;
+	text-align: center;
+}
+
+footer {
+	margin-top: 2rem;
+	font-size: .8rem;
+}
