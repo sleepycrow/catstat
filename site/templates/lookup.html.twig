@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ username }}{% endblock %}
+
+{% block content %}
+	<h2>{{ username }}'s cats</h2>
+	<ul>
+		{% for cat in cats %}
+			<li>{{ cat }}</li>
+		{% endfor %}
+	</ul>
+{% endblock %}
