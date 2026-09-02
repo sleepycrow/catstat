@@ -3,7 +3,7 @@
 {% block title %}{{ username }}{% endblock %}
 
 {% block content %}
-	<h2>{{ username }}'s cats</h2>
+	<h2>{{ username }} has {{ cats|length }} cats</h2>
 	<ul>
 		{% for cat in cats %}
 			<li>{{ cat }}</li>
