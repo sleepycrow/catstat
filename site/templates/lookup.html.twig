@@ -4,6 +4,11 @@
 
 {% block content %}
 	<h2>{{ username }} has {{ cats|length }} cats</h2>
+
+	{% if leaderboard_pos != null %}
+		<p>{{ username }} is #{{ leaderboard_pos }} on the cat leaderboards!</p>
+	{% endif %}
+
 	<ul>
 		{% for cat in cats %}
 			<li>{{ cat }}</li>

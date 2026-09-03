@@ -7,4 +7,14 @@
 		<input type="text" name="user" placeholder="a creature's username..." />
 		<button>OGLE THEIR CATS</button>
 	</form>
+
+	<h2>Leaderboard</h2>
+	<ol>
+		{% for item in leaderboard %}
+			<li>
+				<a href="{{ url_for('lookup') }}?user={{ item.user }}">{{ item.user }}</a>
+				({{ item.totalCats }} cats)
+			</li>
+		{% endfor %}
+	</ol>
 {% endblock %}

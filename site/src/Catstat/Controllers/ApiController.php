@@ -4,7 +4,7 @@ namespace Catstat\Controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Catstat\Config;
-use Catstat\Utils\UserFileUtils;
+use Catstat\Utils\DataUtils;
 
 class ApiController {
 	public function get_hashes(Request $_req, Response $resp, array $_args): Response {
@@ -24,11 +24,11 @@ class ApiController {
 	
 	public function get_user_file(Request $_req, Response $resp, array $args): Response {
 		$filename = $args['name'];
-		if (!UserFileUtils::is_valid_user_file_name($filename)) {
+		if (!DataUtils::is_valid_user_file_name($filename)) {
 			return $resp->withStatus(400);
 		}
 
-		$file_path = UserFileUtils::get_path_for_user($filename, true);
+		$file_path = DataUtils::get_path_for_user($filename, true);
 		if (!file_exists($file_path)) {
 			return $resp->withStatus(404);
 		}
@@ -41,13 +41,29 @@ class ApiController {
 	public function put_user_file(Request $req, Response $resp, array $args): Response {
 		// TODO: Add signature verification
 		$filename = $args['name'];
-		if (!UserFileUtils::is_valid_user_file_name($filename)) {
+		$username = str_replace('.txt', '', $filename);
+		if (!DataUtils::is_valid_user_file_name($filename)) {
 			return $resp->withStatus(400);
 		}
+		$cats = $req->getBody();
 
-		$file_path = UserFileUtils::get_path_for_user($filename, true);
-		$write_result = file_put_contents($file_path, $req->getBody());
+		$file_path = DataUtils::get_path_for_user($filename, true);
+		$write_result = file_put_contents($file_path, $cats);
+		$stats_result = $this->update_stats_for_user($username, $cats);
 
-		return $resp->withStatus($write_result !== false ? 200 : 500);
+		return $resp->withStatus(($write_result !== false && $stats_result !== false) ? 200 : 500);
+	}
+
+	private function update_stats_for_user(string $username, string $cats): int|false {
+		$stats = DataUtils::get_global_stats();
+		if ($stats === false) {
+			return false;
+		}
+
+		$stats[$username] = [
+			'total_cats' => substr_count($cats, "\n") + 1,
+		];
+
+		return DataUtils::save_global_stats($stats);
 	}
 }
