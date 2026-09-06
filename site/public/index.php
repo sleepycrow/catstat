@@ -6,16 +6,29 @@
  * if found, return to sleepycrow
  */
 
+define('APP_ROOT', __DIR__ . '/..');
+
 use Slim\Factory\AppFactory;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
+use Catstat\Config;
 
-require __DIR__ . '/../vendor/autoload.php';
+require APP_ROOT . '/vendor/autoload.php';
 
+// Load .env values and sanity-check
+try {
+	Dotenv\Dotenv::createImmutable(APP_ROOT)->load();
+} catch (Exception $e) {
+	die('Failed to load .env file - is the app set up correctly?<br>' . $e);
+}
+
+if (empty(Config::get_base_data_path())) die('Base data path does not exist!');
+
+// Set up app
 $app = AppFactory::create();
-require __DIR__ . '/../src/routes.php';
+require APP_ROOT . '/src/routes.php';
 
-$twig = Twig::create(__DIR__ . '/../templates', [ 'cache' => false ]); // TODO: enable on prod, keep disabled on dev
+$twig = Twig::create(APP_ROOT . '/templates', [ 'cache' => Config::get_template_cache_path() ]);
 $app->add(TwigMiddleware::create($app, $twig));
 
 $app->run();

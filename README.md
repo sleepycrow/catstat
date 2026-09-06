@@ -12,7 +12,8 @@ The server side requires PHP and [Composer](https://getcomposer.org/).
 
 1. `cd site`
 2. `composer update` to install packages
-3. `cd public` then `php -S localhost:8080` to start dev server
+3. `cp .env.example .env` and tweak the newly-created `.env` to your liking
+4. `cd public` then `php -S localhost:8080` to start dev server
 
 ## Setup (script)
 
