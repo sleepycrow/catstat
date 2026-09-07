@@ -100,7 +100,7 @@ observer.start()
 print("OK, holding.")
 try:
 	while True:
-		time.sleep(1) # keep alive while the observer does its thing
+		time.sleep(10) # keep alive while the observer does its thing
 finally:
 	observer.stop()
 	observer.join()

@@ -47,7 +47,7 @@ class ApiController {
 		}
 		$cats = $req->getBody();
 
-		$file_path = DataUtils::get_path_for_user($filename, true);
+		$file_path = DataUtils::get_path_for_user($filename, true); // TODO: ensure users folder exists before proceeding!!
 		$write_result = file_put_contents($file_path, $cats);
 		$stats_result = $this->update_stats_for_user($username, $cats);
 

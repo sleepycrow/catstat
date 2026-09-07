@@ -3,13 +3,13 @@
 {% block title %}{{ username }}{% endblock %}
 
 {% block content %}
-	<h2>{{ username }} has {{ cats|length }} cats</h2>
+	<h2>
+		{{ username }} has {{ cats|length }} cats
 
-	{% if leaderboard_pos != null %}
-		<div class="notice notice--info">
-			<header>{{ username }} is #{{ leaderboard_pos }} on the cat leaderboards!</header>
-		</div>
-	{% endif %}
+		{% if leaderboard_pos != null %}
+			(#{{ leaderboard_pos }} on leaderboards)
+		{% endif %}
+	</h2>
 
 	<div class="notice notice--info">
 		<header>Cat images will (hopefully) be revamped</header>
