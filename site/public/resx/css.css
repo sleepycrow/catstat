@@ -14,6 +14,10 @@ a {
 	color: inherit;
 }
 
+h1, h2, h3, h4, h5, h6 {
+	text-align: center;
+}
+
 body > header,
 body > footer {
 	text-align: center;
@@ -42,6 +46,24 @@ body > footer {
 	text-align: center;
 }
 
+.user-stats {
+	display: flex;
+	width: 100%;
+	padding: 0;
+	list-style: none;
+}
+
+.user-stats > li {
+	flex: 1;
+	text-align: center;
+	overflow: hidden;
+}
+
+.user-stats > li > strong {
+	font-size: 1.25em;
+	display: block;
+}
+
 .cat-grid {
 	width: 100%;
 	max-width: 100%;
@@ -54,7 +76,6 @@ body > footer {
 
 .cat-grid li {
 	text-align: center;
-	font-weight: bold;
 	overflow: hidden;
 }
 
@@ -81,5 +102,15 @@ body > footer {
 
 .notice--info header::before {
 	content: 'ℹ️';
+	margin-right: .25rem;
+}
+
+.notice--error {
+	background-color: lightcoral;
+	border-color: indianred;
+}
+
+.notice--error header::before {
+	content: '🛑';
 	margin-right: .25rem;
 }

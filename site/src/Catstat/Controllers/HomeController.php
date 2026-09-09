@@ -7,6 +7,8 @@ use Slim\Views\Twig;
 use Catstat\Utils\DataUtils;
 
 class HomeController {
+	private static string $error_page = "error.html.twig";
+
 	public function index(Request $req, Response $resp, array $_args): Response {
 		$view = Twig::fromRequest($req);
 		return $view->render($resp, 'home.html.twig', [
@@ -21,13 +23,13 @@ class HomeController {
 		$file_path = DataUtils::get_path_for_user($username);
 		if (!DataUtils::is_valid_user_name($username) || !file_exists($file_path)) {
 			$resp->withStatus(404);
-			return $view->render($resp, 'test.html.twig', [ 'msg' => ('Not found!')]);
+			return $view->render($resp, HomeController::$error_page, [ 'msg' => ('Not found!')]);
 		}
 
 		$file = fopen($file_path, "r");
 		if (!$file) {
 			$resp->withStatus(500);
-			return $view->render($resp, 'test.html.twig', [ 'msg' => ('Read error!')]);
+			return $view->render($resp, HomeController::$error_page, [ 'msg' => ('Read error!')]);
 		}
 
 		$all_cats = [];
