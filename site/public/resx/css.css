@@ -1,3 +1,7 @@
+:root {
+	--border-radius: 4px;
+}
+
 * {
 	box-sizing: border-box;
 }
@@ -37,13 +41,44 @@ body > footer {
 	font-size: .8rem;
 }
 
+input {
+	border: 1px solid #777;
+	border-radius: var(--border-radius);
+}
+
+button {
+	border: none;
+	background-color: #777;
+	border-radius: var(--border-radius);
+	transition: background-color 0.1s;
+	cursor: pointer;
+	font-weight: bold;
+	color: #FFF;
+}
+
+button:hover {
+	background-color: #555;
+}
+
+.home-form {
+	display: flex;
+	width: 100%;
+	gap: 0.25rem;
+}
+
 .home-form input,
 .home-form button {
-	display: block;
-	width: 100%;
 	font-size: 1.25rem;
-	margin: .5rem 0;
 	text-align: center;
+	height: 3rem;
+}
+
+.home-form input {
+	flex: 1;
+}
+
+.home-form button {
+	width: 3rem;
 }
 
 .user-stats {
@@ -88,6 +123,7 @@ body > footer {
 	border: 1px solid #666;
 	background-color: #CCC;
 	padding: .25rem;
+	border-radius: var(--border-radius);
 }
 
 .notice header {
