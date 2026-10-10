@@ -12,12 +12,12 @@ from dotenv import load_dotenv
 # TODO: Add an example .env
 load_dotenv()
 SYNC_DIR = os.getenv('SYNC_DIR')
-API_ADDRESS = os.getenv('API_ADDRESS')
-SIGNING_KEY = os.getenv('SIGNING_KEY')
+SERVER_ADDRESS = os.getenv('SERVER_ADDRESS')
+REQ_PASSWORD = os.getenv('PASSWORD')
 
 print('┏ Environment Variables')
 print(f'┃ Sync dir is {SYNC_DIR}')
-print(f'┃ Remote is {API_ADDRESS}')
+print(f'┃ Server is {SERVER_ADDRESS}')
 print('┗ Environment Variables')
 print()
 
@@ -42,7 +42,7 @@ def get_local_hashes() -> dict[str, str]:
 	return output
 
 def get_remote_hashes() -> dict[str, str]:
-	req = requests.get(API_ADDRESS + '/hashes')
+	req = requests.get(SERVER_ADDRESS + '/api/v1/hashes')
 	req.raise_for_status()
 	return req.json()
 
@@ -64,8 +64,11 @@ def upload_file(filename: str) -> None:
 	with open(file_path) as file:
 		file_content = file.read()
 
-	# TODO: Add request signing
-	req = requests.put(API_ADDRESS + '/users/' + filename, data=file_content)
+	req = requests.put(
+		SERVER_ADDRESS + '/api/v1/users/' + filename,
+		data = file_content,
+		headers = { 'Password': REQ_PASSWORD }
+	)
 	req.raise_for_status()
 	print(f'║ {filename} OK!')
 
