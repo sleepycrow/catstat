@@ -3,30 +3,38 @@
 	<head>
 		{% block head %}
 			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+			<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%90%BE</text></svg>">
 			<link type="text/css" rel="stylesheet" href="/resx/css.css">
 			<title>{% block title %}{% endblock %} - Kitty Bank</title>
 		{% endblock %}
 	</head>
 	<body>
-		<header>
-			<a href="/">
-				<h1>Lynxsie's therian kebab-fuelled Kitty Bank</h1>
-				<p>"The cats in the chat are free, you can just take them!"</p>
-			</a>
-		</header>
-		
-		{% block content %}{% endblock %}
+		<div class="page-wrapper">
+			<header class="site-header">
+				<a href="/">
+					<h1>Lynxsie's therian kebab-fuelled Kitty Bank</h1>
+					<p>
+						"The cats in the chat are free, you can just take them!"<br>
+						<em>(early testing version!~)</em>
+					</p>
+				</a>
+			</header>
+			
+			{% block content %}{% endblock %}
 
-		<footer>
-			{% block footer %}
-				<p>
-					<a href="https://sr.ht/~sleepycrow/catstat">Source code</a>
-				</p>
+			<footer class="site-footer">
+				{% block footer %}
+					<p><a href="https://sr.ht/~sleepycrow/catstat">Source code</a></p>
 
-				<p>
-					Made with our own paws!
-				</p>
-			{% endblock %}
-		</footer>
+					<p>
+						made with our gay little paws~<br>
+						[credits go here]
+					</p>
+
+					<p><img src="/resx/paw_stamp.gif" alt="Paw stamp" /></p>
+				{% endblock %}
+			</footer>
+		</div>
 	</body>
 </html>
