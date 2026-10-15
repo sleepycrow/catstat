@@ -61,7 +61,7 @@ class ApiController {
 		}
 
 		$stats[$username] = [
-			'total_cats' => substr_count($cats, "\n") + 1,
+			'total_cats' => substr_count(trim($cats), "\n") + 1,
 		];
 
 		return DataUtils::save_global_stats($stats);
